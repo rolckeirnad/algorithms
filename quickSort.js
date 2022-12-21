@@ -1,21 +1,19 @@
 const partition = (arr, start, end) => {
-  const pivot = arr[end]
-  let i = start - 1
-  for (let j = start; j <= end - 1; j++) {
-    if (arr[j] < pivot) {
-      i++
-      [arr[i], arr[j]] = [arr[j], arr[i]]
+  let lastSmallestIndex = start - 1
+  for (let i = start; i <= end - 1; i++) {
+    if (arr[i] < arr[end]) {
+      lastSmallestIndex++
+      [arr[lastSmallestIndex], arr[i]] = [arr[i], arr[lastSmallestIndex]]
     }
   }
-  [arr[i + 1], arr[end]] = [arr[end], arr[i + 1]]
-  return i + 1
+  [arr[lastSmallestIndex + 1], arr[end]] = [arr[end], arr[lastSmallestIndex + 1]]
+  return lastSmallestIndex + 1
 }
 
-const quickSort2 = (arr, start = 0, end = arr.length - 1) => {
+const quickSort = (arr, start = 0, end = arr.length - 1) => {
   if (start < end) {
-    const pivot = partition(arr, start, end)
-    quickSort2(arr, start, pivot - 1)
-    quickSort2(arr, pivot + 1, end)
+    const pivotIndex = partition(arr, start, end)
+    quickSort(arr, start, pivotIndex - 1) // Left subarray
+    quickSort(arr, pivotIndex + 1, end)  // Right subarray
   }
-  return arr
 }
